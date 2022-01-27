@@ -31,5 +31,4 @@ public class DespesaResponse {
                        .map(DespesaResponse::from)
                        .collect(Collectors.toList());
     }
-
 }
