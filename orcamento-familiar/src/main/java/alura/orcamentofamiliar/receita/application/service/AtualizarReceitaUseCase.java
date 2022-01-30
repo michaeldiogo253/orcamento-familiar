@@ -40,7 +40,7 @@ public class AtualizarReceitaUseCase
         receitaASerAtualizada.atualizaDadosReceita(input.getDescricao(), input.getValor(), input.getData());
         salvarReceitaPort.salvarReceita(receitaASerAtualizada);
 
-        return OutputValues.ofEmpty();
+        return  OutputValues.of(receitaASerAtualizada);
     }
 
     private void validaSePodeAtualizar(AtualizarReceitaUseCase.InputValues input) {
@@ -64,7 +64,10 @@ public class AtualizarReceitaUseCase
     @Value
     @RequiredArgsConstructor(staticName = "ofEmpty")
     public static class OutputValues implements UseCase.OutputValues {
-
+        Receita receitaAtualizada;
+        public static OutputValues of (Receita receita){
+            return new AtualizarReceitaUseCase.OutputValues(receita);
+        }
     }
 
 }
