@@ -5,6 +5,7 @@ import alura.orcamentofamiliar.receita.application.port.out.SalvarReceitaPort;
 import alura.orcamentofamiliar.receita.domain.Receita;
 import alura.orcamentofamiliar.util.date.DateUtil;
 import alura.orcamentofamiliar.util.exceptions.BussinessRuleException;
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -16,11 +17,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.*;
-
+@RequiredArgsConstructor
 class CadastrarReceitaUseCaseTest {
 
-    private SalvarReceitaPort salvarReceitaPort = Mockito.mock(SalvarReceitaPort.class);
-    private ExisteReceitaNoPeriodoPort existeReceitaNoPeriodoPort = Mockito.mock(ExisteReceitaNoPeriodoPort.class);
+    private final SalvarReceitaPort salvarReceitaPort = Mockito.mock(SalvarReceitaPort.class);
+    private final ExisteReceitaNoPeriodoPort existeReceitaNoPeriodoPort = Mockito.mock(ExisteReceitaNoPeriodoPort.class);
 
     CadastrarReceitaUseCase useCase = new CadastrarReceitaUseCase(salvarReceitaPort, existeReceitaNoPeriodoPort);
 
@@ -32,7 +33,6 @@ class CadastrarReceitaUseCaseTest {
                                                                                             LocalDate.of(2022, 1, 23));
 
         List<LocalDate> periodos = DateUtil.periodos(input.getData());
-        Receita receitaParaSalvar = new Receita(input.getDescricao(), input.getValor(), input.getData());
         given(existeReceitaNoPeriodoPort.existeNoPeriodo(input.getDescricao(), periodos)).willReturn(false);
 
         CadastrarReceitaUseCase.OutputValues output = useCase.execute(input);
@@ -61,7 +61,7 @@ class CadastrarReceitaUseCaseTest {
         String menssagem = "Receita já cadastrada neste mes";
 
         willThrow(new BussinessRuleException(menssagem))
-                .given(existeReceitaNoPeriodoPort.existeNoPeriodo(input.getDescricao(), periodos));
+                .given(existeReceitaNoPeriodoPort).existeNoPeriodo(input.getDescricao(), periodos);
 
         assertThatThrownBy(()-> existeReceitaNoPeriodoPort.existeNoPeriodo(input.getDescricao(), periodos))
                 .hasMessageContaining(menssagem)

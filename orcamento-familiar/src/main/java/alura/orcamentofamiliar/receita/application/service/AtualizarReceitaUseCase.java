@@ -48,7 +48,7 @@ public class AtualizarReceitaUseCase
         List<LocalDate> periodos = DateUtil.periodos(input.getData());
 
         if (existeReceitaNoPeriodoPort.existeNoPeriodo(input.getDescricao(), periodos)) {
-            throw new BussinessRuleException("Receita já está cadastrada neste mes");
+            throw new BussinessRuleException("Receita já está cadastrada neste mes, não é possivel atualiza-la");
         }
     }
 

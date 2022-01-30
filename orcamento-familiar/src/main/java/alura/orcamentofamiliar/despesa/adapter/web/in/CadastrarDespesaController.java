@@ -47,4 +47,5 @@ public class CadastrarDespesaController {
 
         return categoria == null ? Categoria.Outras : Categoria.valueOf(categoria);
     }
+
 }

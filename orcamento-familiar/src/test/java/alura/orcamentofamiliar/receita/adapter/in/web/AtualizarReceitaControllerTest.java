@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willThrow;
@@ -53,6 +54,7 @@ class AtualizarReceitaControllerTest {
         then(useCase).should()
                      .execute(input);
 
+        assertThat(result.getResponse().getContentAsString()).isEmpty();
     }
 
     @Test
@@ -72,5 +74,6 @@ class AtualizarReceitaControllerTest {
 
         assertThatThrownBy(() -> useCase.execute(input)).isInstanceOf(BussinessRuleException.class)
                                                         .hasMessageContaining(errorMessage);
+
     }
 }

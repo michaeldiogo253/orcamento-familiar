@@ -28,4 +28,5 @@ public class DespesaCreator {
                                          .mapToObj(value -> umaDespesaAleatoria())
                                          .collect(Collectors.toList()) : Collections.emptyList();
     }
+
 }
