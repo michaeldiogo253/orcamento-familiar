@@ -28,8 +28,6 @@ public class ListarTodasAsReceitasController {
     @GetMapping("/receitas/listar-todas")
     public ResponseEntity<List<ReceitaResponse>> execute(@RequestParam(required = false) String descricao) {
 
-        try {
-
             List<Receita> receitas = descricao == null ? findAllReceitasPort.findAllReceitas()
                                                        :
                                      findTodasAsReceitasPelaDescricaoPort.listaTodasAsReceitasPorDescricao(
@@ -38,9 +36,7 @@ public class ListarTodasAsReceitasController {
             return ResponseEntity.ok()
                                  .body(ReceitaResponse.from(receitas));
 
-        } catch (ResourceNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
+
     }
 
 }
