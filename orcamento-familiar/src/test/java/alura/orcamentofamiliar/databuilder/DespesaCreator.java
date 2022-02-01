@@ -22,10 +22,20 @@ public class DespesaCreator {
         return new Despesa(id, descricao, valor, data, categoria);
     }
 
+    public static Despesa umaDespesaComDescricaoInternet(){
+        return new Despesa("Internet", BigDecimal.TEN, LocalDate.now(), Categoria.Moradia);
+    }
     public static List<Despesa> variasDespesas(int quantidade) {
 
         return quantidade > 0 ? IntStream.range(0, quantidade)
                                          .mapToObj(value -> umaDespesaAleatoria())
+                                         .collect(Collectors.toList()) : Collections.emptyList();
+    }
+
+    public static List<Despesa> variasDespesasComDescricaoInternet(int quantidade) {
+
+        return quantidade > 0 ? IntStream.range(0, quantidade)
+                                         .mapToObj(value -> umaDespesaComDescricaoInternet())
                                          .collect(Collectors.toList()) : Collections.emptyList();
     }
 
