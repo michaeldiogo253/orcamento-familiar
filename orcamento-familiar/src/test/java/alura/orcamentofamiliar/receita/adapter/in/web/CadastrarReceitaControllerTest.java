@@ -35,11 +35,11 @@ class CadastrarReceitaControllerTest {
 
         String url = "/orcamento-familiar/receitas/cadastrar-receita";
 
-        Receita receita = new Receita("Salario", new BigDecimal("2000.00"), LocalDate.now());
+        Receita receita = new Receita("Salario", new BigDecimal("2000.00"),  LocalDate.of(2022,1,20));
 
         CadastrarReceitaUseCase.InputValues input = new CadastrarReceitaUseCase.InputValues("Salario",
                                                                                             new BigDecimal("2000.00"),
-                                                                                            LocalDate.now());
+                                                                                            LocalDate.of(2022,1,20));
 
         given(useCase.execute(input)).willReturn(CadastrarReceitaUseCase.OutputValues.of(receita));
 
@@ -53,7 +53,7 @@ class CadastrarReceitaControllerTest {
                      .execute(input);
         assertThat(result.getResponse()
                          .getContentAsString()).isEqualTo("{\"descricao\":\"Salario\",\"valor\":2000" +
-                                                          ".00,\"data\":\"2022-01-27\"}");
+                                                          ".00,\"data\":\"2022-01-20\"}");
     }
 
     @Test
