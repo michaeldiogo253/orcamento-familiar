@@ -27,13 +27,12 @@ public class CadastrarDespesaController {
                                                            String categoria) {
 
         try {
-            Categoria categoriaInicializada = inicializaCategoria(categoria);
 
             CadastrarDespesaUseCase.OutputValues output = useCase.execute(new CadastrarDespesaUseCase.InputValues(
                     request.getDescricao(),
                     request.getValor(),
                     request.getData(),
-                    categoriaInicializada));
+                    inicializaCategoria(categoria)));
 
             return ResponseEntity.status(HttpStatus.CREATED)
                                  .body(DespesaResponse.from(output.getDespesa()));
