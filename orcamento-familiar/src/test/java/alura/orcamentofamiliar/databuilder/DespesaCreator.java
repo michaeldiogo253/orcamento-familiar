@@ -14,7 +14,7 @@ public class DespesaCreator {
 
     public static Despesa umaDespesaAleatoria() {
 
-        return new Despesa("any_descriacao", BigDecimal.TEN, LocalDate.now(), Categoria.Alimentação);
+        return new Despesa("any_descriacao", BigDecimal.TEN, LocalDate.now(), Categoria.Moradia);
     }
 
     public static Despesa umaDespesa(Long id, String descricao, BigDecimal valor, LocalDate data, Categoria categoria) {
@@ -22,7 +22,7 @@ public class DespesaCreator {
         return new Despesa(id, descricao, valor, data, categoria);
     }
 
-    public static List<Despesa> variasReceitas(int quantidade) {
+    public static List<Despesa> variasDespesas(int quantidade) {
 
         return quantidade > 0 ? IntStream.range(0, quantidade)
                                          .mapToObj(value -> umaDespesaAleatoria())
