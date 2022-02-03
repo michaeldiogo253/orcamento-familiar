@@ -3,6 +3,8 @@ package alura.orcamentofamiliar.despesa.application;
 import alura.orcamentofamiliar.despesa.application.port.out.ExisteDespesaNoPeriodoPort;
 import alura.orcamentofamiliar.despesa.application.port.out.SalvarDespesaPort;
 import alura.orcamentofamiliar.despesa.domain.Categoria;
+import alura.orcamentofamiliar.usuario.application.port.out.FindUsuarioByIdPort;
+import alura.orcamentofamiliar.usuario.domain.Usuario;
 import alura.orcamentofamiliar.util.date.DateUtil;
 import alura.orcamentofamiliar.util.exceptions.BussinessRuleException;
 import org.junit.jupiter.api.Test;
@@ -19,22 +21,27 @@ import static org.mockito.BDDMockito.*;
 
 class CadastrarDespesaUseCaseTest {
 
-
     private final ExisteDespesaNoPeriodoPort existeDespesaNoPeriodoPort =
             Mockito.mock(ExisteDespesaNoPeriodoPort.class);
     private final SalvarDespesaPort salvarDespesaPort = Mockito.mock(SalvarDespesaPort.class);
+    private final FindUsuarioByIdPort findUsuarioByIdPort = Mockito.mock(FindUsuarioByIdPort.class);
     private final CadastrarDespesaUseCase useCase = new CadastrarDespesaUseCase(existeDespesaNoPeriodoPort,
-                                                                                salvarDespesaPort);
+                                                                                salvarDespesaPort,
+                                                                                findUsuarioByIdPort);
 
     @Test
     void deveCadastrarDespesaComCategoriaPassadaNaRequest() {
 
-        CadastrarDespesaUseCase.InputValues input = new CadastrarDespesaUseCase.InputValues("Aluguel",
+        Usuario usuario = new Usuario("Michael", "mic", "mic");
+
+        CadastrarDespesaUseCase.InputValues input = new CadastrarDespesaUseCase.InputValues(1L,
+                                                                                            "Aluguel",
                                                                                             new BigDecimal("600.00"),
                                                                                             LocalDate.of(2022, 1, 23),
                                                                                             Categoria.Moradia);
         List<LocalDate> periodos = DateUtil.periodos(input.getData());
         given(existeDespesaNoPeriodoPort.existeNoPeriodo(input.getDescricao(), periodos)).willReturn(false);
+        given(findUsuarioByIdPort.findUsuarioById(1L)).willReturn(usuario);
 
         CadastrarDespesaUseCase.OutputValues output = useCase.execute(input);
 
@@ -42,6 +49,9 @@ class CadastrarDespesaUseCaseTest {
                                         .existeNoPeriodo(input.getDescricao(), periodos);
         then(salvarDespesaPort).should()
                                .salvarDespesa(any());
+
+        then(findUsuarioByIdPort).should()
+                                 .findUsuarioById(1L);
 
         assertThat(output.getDespesa()
                          .getDescricao()).isEqualTo(input.getDescricao());
@@ -56,7 +66,8 @@ class CadastrarDespesaUseCaseTest {
     @Test
     void deveLancarExceptionAoTentarCadastrarDespesaInvalida() {
 
-        CadastrarDespesaUseCase.InputValues input = new CadastrarDespesaUseCase.InputValues("Aluguel",
+        CadastrarDespesaUseCase.InputValues input = new CadastrarDespesaUseCase.InputValues(1L,
+                                                                                            "Aluguel",
                                                                                             new BigDecimal("600.00"),
                                                                                             LocalDate.of(2022, 1, 23),
                                                                                             Categoria.Moradia);
@@ -74,6 +85,7 @@ class CadastrarDespesaUseCaseTest {
 
         then(existeDespesaNoPeriodoPort).should()
                                         .existeNoPeriodo(input.getDescricao(), periodos);
+        then(findUsuarioByIdPort).shouldHaveNoInteractions();
         then(salvarDespesaPort).shouldHaveNoInteractions();
 
     }
