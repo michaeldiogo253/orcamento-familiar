@@ -36,13 +36,15 @@ class CadastrarDespesaControllerTest {
     void deveCadastrarUmaNovaDespesa() throws Exception {
 
         String url = "/orcamento-familiar/despesas/cadastrar-despesa";
-        CadastrarDespesaRequest request = new CadastrarDespesaRequest("agua",
+        CadastrarDespesaRequest request = new CadastrarDespesaRequest(1L,
+                                                                      "agua",
                                                                       new BigDecimal("90.00"),
                                                                       LocalDate.of(2022, 1, 20));
 
         Despesa despesa = new Despesa(request.getDescricao(), request.getValor(), request.getData(), Categoria.Moradia);
 
-        CadastrarDespesaUseCase.InputValues input = new CadastrarDespesaUseCase.InputValues(request.getDescricao(),
+        CadastrarDespesaUseCase.InputValues input = new CadastrarDespesaUseCase.InputValues(request.getIdUsuario(),
+                                                                                            request.getDescricao(),
                                                                                             request.getValor(),
                                                                                             request.getData(),
                                                                                             Categoria.Moradia);

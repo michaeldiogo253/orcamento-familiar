@@ -35,11 +35,12 @@ class CadastrarReceitaControllerTest {
 
         String url = "/orcamento-familiar/receitas/cadastrar-receita";
 
-        Receita receita = new Receita("Salario", new BigDecimal("2000.00"),  LocalDate.of(2022,1,20));
+        Receita receita = new Receita("Salario", new BigDecimal("2000.00"), LocalDate.of(2022, 1, 20));
 
-        CadastrarReceitaUseCase.InputValues input = new CadastrarReceitaUseCase.InputValues("Salario",
+        CadastrarReceitaUseCase.InputValues input = new CadastrarReceitaUseCase.InputValues(1L,
+                                                                                            "Salario",
                                                                                             new BigDecimal("2000.00"),
-                                                                                            LocalDate.of(2022,1,20));
+                                                                                            LocalDate.of(2022, 1, 20));
 
         given(useCase.execute(input)).willReturn(CadastrarReceitaUseCase.OutputValues.of(receita));
 
@@ -61,14 +62,15 @@ class CadastrarReceitaControllerTest {
 
         String url = "/orcamento-familiar/receitas/cadastrar-receita";
 
-        CadastrarReceitaUseCase.InputValues input = new CadastrarReceitaUseCase.InputValues("Salario",
+        CadastrarReceitaUseCase.InputValues input = new CadastrarReceitaUseCase.InputValues(1L,
+                                                                                            "Salario",
                                                                                             new BigDecimal("2000.00"),
                                                                                             LocalDate.now());
 
         String errorMessage = String.format("Receita já está cadastrada neste mes");
 
         willThrow(new BussinessRuleException(errorMessage)).given(useCase)
-                                                     .execute(input);
+                                                           .execute(input);
 
         assertThatThrownBy(() -> useCase.execute(input)).isInstanceOf(BussinessRuleException.class)
                                                         .hasMessageContaining(errorMessage);

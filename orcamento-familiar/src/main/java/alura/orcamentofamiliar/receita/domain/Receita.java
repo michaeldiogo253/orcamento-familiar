@@ -27,6 +27,14 @@ public class Receita {
         this.data = data;
     }
 
+    public Receita(String descricao, BigDecimal valor, LocalDate data, Usuario usuario) {
+
+        this.descricao = descricao;
+        this.valor = valor;
+        this.data = data;
+        this.usuario = usuario;
+    }
+
     public Receita(Long id, String descricao, BigDecimal valor, LocalDate data) {
 
         this.id = id;
