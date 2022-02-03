@@ -4,6 +4,8 @@ import alura.orcamentofamiliar.despesa.application.port.out.ExisteDespesaNoPerio
 import alura.orcamentofamiliar.despesa.application.port.out.SalvarDespesaPort;
 import alura.orcamentofamiliar.despesa.domain.Categoria;
 import alura.orcamentofamiliar.despesa.domain.Despesa;
+import alura.orcamentofamiliar.usuario.application.port.out.FindUsuarioByIdPort;
+import alura.orcamentofamiliar.usuario.domain.Usuario;
 import alura.orcamentofamiliar.util.UseCase;
 import alura.orcamentofamiliar.util.date.DateUtil;
 import alura.orcamentofamiliar.util.exceptions.BussinessRuleException;
@@ -23,12 +25,15 @@ public class CadastrarDespesaUseCase
 
     private final ExisteDespesaNoPeriodoPort existeDespesaNoPeriodoPort;
     private final SalvarDespesaPort salvarDespesaPort;
+    private final FindUsuarioByIdPort findUsuarioByIdPort;
 
     @Override
     public OutputValues execute(InputValues input) {
 
         validaSePodeCadastrar(input);
-        Despesa despesa = new Despesa(input.getDescricao(), input.getValor(), input.getData(), input.getCategoria());
+        Usuario usuario = findUsuarioByIdPort.findUsuarioById(input.getIdUsuario());
+
+        Despesa despesa = new Despesa(input.getDescricao(), input.getValor(), input.getData(), input.getCategoria(), usuario);
 
         salvarDespesaPort.salvarDespesa(despesa);
 
@@ -47,6 +52,7 @@ public class CadastrarDespesaUseCase
     @Value
     public static class InputValues implements UseCase.InputValues {
 
+        Long idUsuario;
         String descricao;
         BigDecimal valor;
         LocalDate data;

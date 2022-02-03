@@ -29,6 +29,7 @@ public class CadastrarDespesaController {
         try {
 
             CadastrarDespesaUseCase.OutputValues output = useCase.execute(new CadastrarDespesaUseCase.InputValues(
+                    request.getIdUsuario(),
                     request.getDescricao(),
                     request.getValor(),
                     request.getData(),

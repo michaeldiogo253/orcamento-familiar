@@ -73,7 +73,7 @@ class AtualizarDespesaUseCaseTest {
     @Test
     void deveLancarExceptionAoTentarCadastrarDespesaInvalida() {
 
-        CadastrarDespesaUseCase.InputValues input = new CadastrarDespesaUseCase.InputValues("Aluguel",
+        CadastrarDespesaUseCase.InputValues input = new CadastrarDespesaUseCase.InputValues(1L, "Aluguel",
                                                                                             new BigDecimal("600.00"),
                                                                                             LocalDate.of(2022, 1, 23),
                                                                                             Categoria.Moradia);
