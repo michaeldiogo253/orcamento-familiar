@@ -1,6 +1,7 @@
 package alura.orcamentofamiliar.usuario.adapter.out.persistence;
 
 import alura.orcamentofamiliar.usuario.application.port.out.FindUsuarioByIdPort;
+import alura.orcamentofamiliar.usuario.application.port.out.FindUsuarioByLoginPort;
 import alura.orcamentofamiliar.usuario.application.port.out.SalvarUsuarioPort;
 import alura.orcamentofamiliar.usuario.domain.Usuario;
 import alura.orcamentofamiliar.util.exceptions.ResourceNotFoundException;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class UsuarioPersistenceAdapter implements SalvarUsuarioPort, FindUsuarioByIdPort {
+public class UsuarioPersistenceAdapter implements SalvarUsuarioPort, FindUsuarioByIdPort, FindUsuarioByLoginPort {
 
     private final UsuarioRepository usuarioRepository;
 
@@ -25,5 +26,11 @@ public class UsuarioPersistenceAdapter implements SalvarUsuarioPort, FindUsuario
 
         return usuarioRepository.findById(id)
                                 .orElseThrow(() -> new ResourceNotFoundException("Usuario não encontrado"));
+    }
+
+    @Override
+    public Usuario findUsuarioByLogin(String login) {
+
+        return usuarioRepository.findByLogin(login).orElseThrow(() -> new ResourceNotFoundException("Usuario não encontrado"));
     }
 }
