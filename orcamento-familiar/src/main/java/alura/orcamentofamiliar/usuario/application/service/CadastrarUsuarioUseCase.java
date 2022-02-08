@@ -5,6 +5,7 @@ import alura.orcamentofamiliar.usuario.domain.Usuario;
 import alura.orcamentofamiliar.util.UseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,7 +18,9 @@ public class CadastrarUsuarioUseCase
     @Override
     public OutputValues execute(InputValues input) {
 
-        Usuario usuario = new Usuario(input.getNome(), input.getLogin(), input.getSenha());
+        String senhaCriptografada = new BCryptPasswordEncoder().encode(input.getSenha());
+
+        Usuario usuario = new Usuario(input.getNome(), input.getLogin(), senhaCriptografada);
 
         salvarUsuarioPort.salvarUsuario(usuario);
         return CadastrarUsuarioUseCase.OutputValues.of(usuario);
