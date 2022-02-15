@@ -34,7 +34,7 @@ class ListarReceitaPorIdControllerTest {
     void deveriaListarUmaReceitaPorIdValido() throws Exception {
 
         Long idReceita = 1L;
-        Receita receita = new Receita("salario", new BigDecimal("1000"), LocalDate.now());
+        Receita receita = new Receita("salario", new BigDecimal("1000"), LocalDate.of(2022,1,28));
 
         given(findReceitaByIdPort.findReceitaById(idReceita)).willReturn(receita);
 

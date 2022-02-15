@@ -3,7 +3,10 @@ package alura.orcamentofamiliar.auth.adapter.in.web;
 import alura.orcamentofamiliar.auth.adapter.in.web.request.LoginRequest;
 import alura.orcamentofamiliar.auth.adapter.in.web.response.TokenResponse;
 import alura.orcamentofamiliar.auth.application.TokenService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,13 +19,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+@Profile("prod")
 @RestController
 @RequestMapping("/auth")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AutenticacaoController {
 
-    @Autowired private AuthenticationManager authManager;
+    private  AuthenticationManager authManager;
 
-    @Autowired private TokenService tokenService;
+    private final TokenService tokenService;
 
     @PostMapping
     public ResponseEntity<TokenResponse> autenticar(@RequestBody @Valid LoginRequest request) {
