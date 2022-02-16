@@ -2,13 +2,14 @@ package alura.orcamentofamiliar.auth.application;
 
 import alura.orcamentofamiliar.usuario.application.port.out.FindUsuarioByLoginPort;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AutenticacaoService implements UserDetailsService {
 
     private final FindUsuarioByLoginPort findUsuarioByLoginPort;

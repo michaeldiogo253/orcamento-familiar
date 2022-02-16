@@ -3,8 +3,10 @@ package alura.orcamentofamiliar.config.security;
 import alura.orcamentofamiliar.auth.application.TokenService;
 import alura.orcamentofamiliar.usuario.adapter.out.persistence.UsuarioRepository;
 import alura.orcamentofamiliar.usuario.domain.Usuario;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
