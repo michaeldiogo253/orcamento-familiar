@@ -1,19 +1,26 @@
 package alura.orcamentofamiliar.receita.adapter.in.web.response;
 
 import alura.orcamentofamiliar.receita.domain.Receita;
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.domain.Page;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Value
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ReceitaResponse {
 
-    String descricao;
-    BigDecimal valor;
-    LocalDate data;
+    private String descricao;
+    private BigDecimal valor;
+    private LocalDate data;
 
     public static ReceitaResponse from(Receita receita) {
 
@@ -25,5 +32,11 @@ public class ReceitaResponse {
         return receitas.stream()
                        .map(ReceitaResponse::from)
                        .collect(Collectors.toList());
+    }
+
+    public static Page<ReceitaResponse> fromPage(Page<Receita> receitasPaginadas) {
+
+        return receitasPaginadas.map(ReceitaResponse::from);
+
     }
 }
